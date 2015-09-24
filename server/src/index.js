@@ -30,8 +30,7 @@ const server = createServer(socket => {
             return socket.end();
         }
 
-        const instruction = splittedString[0];
-        const value = splittedString[1];
+        const [instruction, value] = splittedString;
 
         switch (instruction) {
             case 'ping':
@@ -58,7 +57,7 @@ const server = createServer(socket => {
 server.listen(argv.port || 3006);
 
 (function openSocket() {
-    client = connect(__dirname + '/../../socket-webserver', () => {
+    client = connect(argv.socketWebserver || __dirname + '/../../socket-webserver', () => {
         console.log('connected to web server');
         const keys = [];
         for (let key of serverClients.keys()) {

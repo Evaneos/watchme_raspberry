@@ -66,7 +66,7 @@ const server = (0, _net.createServer)(function (socket) {
 server.listen(argv.port || 3006);
 
 ( /** @function */function openSocket() {
-    client = (0, _net.connect)(__dirname + '/../../socket-webserver', function () {
+    client = (0, _net.connect)(argv.socketWebserver || __dirname + '/../../socket-webserver', function () {
         console.log('connected to web server');
         const keys = [];
         for (var _iterator = serverClients.keys(), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _getIterator(_iterator);;) {

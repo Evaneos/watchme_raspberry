@@ -113,10 +113,10 @@ const netServer = createNetServer(socket => {
     });
 });
 try {
-    fs.unlinkSync(__dirname + '/../../socket-webserver');
+    fs.unlinkSync(argv.socketWebserver || __dirname + '/../../socket-webserver');
 } catch (err) {}
 
-netServer.listen(__dirname + '/../../socket-webserver');
+netServer.listen(argv.socketWebserver || __dirname + '/../../socket-webserver');
 
 // web server
 
