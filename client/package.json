@@ -1,0 +1,23 @@
+{
+  "name": "rasberry-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "dependencies": {
+    "babel-runtime": "^5.8.25"
+  },
+  "devDependencies": {
+    "springbokjs-library": "^10.2.0"
+  },
+  "scripts": {
+    "build": "make build",
+    "postpublish": "make post-publish",
+    "prepublish": "make pre-publish",
+    "preversion": "make pre-version",
+    "test": "make tests",
+    "version": "make version",
+    "watch": "make watch"
+  },
+  "author": "",
+  "license": "ISC"
+}

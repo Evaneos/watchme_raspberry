@@ -1,0 +1,77 @@
+@require 'theme-evaneos';
+@require 'turaco-styl/themes/simple-blue';
+$page-100 = false
+
+@require 'turaco-styl/index';
+@require 'turaco-styl/components/index';
+
+.hidden
+    display none
+
+.side-col
+    absolute
+    fixed top right bottom
+    width 315px
+    overflow auto
+
+.main-col
+    absolute
+    fixed top bottom left
+    right 320px
+    > div
+        width 100%
+        height 100%
+
+
+.map, .mapcontainer
+    width 100%
+    height 100%
+    background transparent // background color while loading
+
+
+#searchcontainer
+    z-index 1000
+    position absolute
+    top 40px
+    left 50%
+    width 40%
+
+#searchdiv
+    left -50%
+    background #FFF
+    box-shadow 1px 1px 3px #666
+    color #111
+
+#searchbox
+    height auto
+    margin-top 0
+    padding 4px 2px
+    font-size 22px
+
+#results
+    ul
+        margin 5px 0
+        padding 0
+        list-style none
+    li
+        margin 0
+        padding 4px 6px
+        cursor pointer
+        &:hover
+            background #ECECEC
+            color #000
+
+
+.map-icon-dot
+    $iconWidth ?= 15px
+    border-radius $iconWidth
+
+    &.destination
+        $iconColor ?= #ef6e45
+        background $iconColor
+
+.badge
+    &.article
+        background #4BA6F5
+    &.opinion
+        background #F79400
