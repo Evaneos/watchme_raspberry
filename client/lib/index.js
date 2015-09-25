@@ -27,7 +27,7 @@ let client;
     client = (0, _net.connect)(port, host, function () {
         client.write('mac: ' + mac);
         pingInterval = setInterval(function () {
-            return client.write('ping: ');
+            return client.write('ping');
         }, 10000);
     });
 
@@ -59,9 +59,14 @@ let client;
         }, 1000);
     });
 
-    client.on('data', /** @function 
+    client.on('data', /** @function
                       * @param data */function (data) {
         const string = data.toString();
+
+        if (string === 'pong') {
+            return;
+        }
+
         console.log('data', string);
 
         var _string$split = string.split(': ');

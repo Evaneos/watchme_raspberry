@@ -29,6 +29,12 @@ const server = (0, _net.createServer)(function (socket) {
     socket.on('data', /** @function 
                       * @param data */function (data) {
         const string = data.toString();
+
+        if (string === 'ping') {
+            socket.write('pong');
+            return;
+        }
+
         console.log('data', string);
 
         const splittedString = string.split(': ');
@@ -43,7 +49,7 @@ const server = (0, _net.createServer)(function (socket) {
 
         switch (instruction) {
             case 'ping':
-                socket.write('pong: ');
+                socket.write('pong');
                 break;
 
             case 'mac':
