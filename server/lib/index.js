@@ -119,9 +119,18 @@ server.listen(argv.port || 3007);
             case 'pong':
                 break;
 
+            case 'url':
+            case 'change-url':
             case 'refresh':
-                const socket = serverClients.get(value);
-                socket.write('refresh');
+                var _value$split = value.split(',', 2),
+                    mac = _value$split[0],
+                    url = _value$split[1];
+
+                const socket = serverClients.get(mac);
+                if (socket) {
+                    socket.write(instruction + ': ' + url);
+                }
+
                 break;
 
             default:

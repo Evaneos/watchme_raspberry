@@ -1,15 +1,16 @@
 'use strict';
 
+var _child_process = require('child_process');
+
 var _net = require('net');
 
 var _os = require('os');
-
-var _child_process = require('child_process');
 
 const argv = require('minimist')(process.argv.slice(2));
 
 const port = argv.port || 3007;
 const host = argv.host || 'localhost';
+const script = '/home/pi/screen.sh';
 
 const mac = (function () {
     const interfaces = (0, _os.networkInterfaces)();
@@ -59,14 +60,9 @@ let client;
         }, 1000);
     });
 
-    client.on('data', /** @function
+    client.on('data', /** @function 
                       * @param data */function (data) {
         const string = data.toString();
-
-        if (string === 'pong') {
-            return;
-        }
-
         console.log('data', string);
 
         var _string$split = string.split(': ');
@@ -78,9 +74,27 @@ let client;
             case 'pong':
                 break;
 
+            case 'url':
+            case 'change-url':
+                value = value.trim();
+
+                try {
+                    (0, _child_process.spawnSync)(script, ['reload', url]);
+                } catch (err) {
+                    console.log(err.message);
+                }
+
+                break;
+
             case 'refresh':
                 console.log('refresh !');
-                (0, _child_process.execSync)('xdotool key r');
+
+                try {
+                    (0, _child_process.spawnSync)(script, ['refresh']);
+                } catch (err) {
+                    console.log(err.message);
+                }
+
                 break;
 
             default:

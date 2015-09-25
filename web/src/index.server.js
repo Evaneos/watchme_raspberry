@@ -131,12 +131,20 @@ io.on('connection', function(socket) {
         }
 
         const item = itemsMap.get(id);
+        if (item.url === url) {
+            return response(null);
+        }
+
         item.url = url;
         response(null);
 
         itemsData[id].url = url;
         socket.broadcast.emit('saved', id, url);
         writeData();
+
+        if (item.online) {
+            netSocketWrite(`change-url: ${item.mac},${item.url}`);
+        }
     });
 
     socket.on('refresh', (id, response) => {
@@ -148,7 +156,7 @@ io.on('connection', function(socket) {
         const item = itemsMap.get(id);
 
         if (item.online) {
-            netSocketWrite('refresh: ' + item.mac);
+            netSocketWrite(`refresh: ${item.mac},${item.url}`);
         }
 
         response(null);

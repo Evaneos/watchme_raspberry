@@ -1,10 +1,11 @@
+import { spawnSync } from 'child_process';
 import { connect } from 'net';
 import { networkInterfaces } from 'os';
-import { execSync } from 'child_process';
 const argv = require('minimist')(process.argv.slice(2));
 
 const port = argv.port || 3007;
 const host = argv.host || 'localhost';
+const script = '/home/pi/screen.sh';
 
 const mac = (() => {
     const interfaces = networkInterfaces();
@@ -21,7 +22,7 @@ let client;
     let pingInterval;
     client = connect(port, host, () => {
         client.write('mac: ' + mac);
-        pingInterval = setInterval(() => client.write('ping: '), 10000);
+        pingInterval = setInterval(() => client.write('ping'), 10000);
     });
 
     client.setKeepAlive(true);
@@ -58,9 +59,27 @@ let client;
             case 'pong':
                 break;
 
+            case 'url':
+            case 'change-url':
+                value = value.trim();
+
+                try {
+                    spawnSync(script, ['reload', url]);
+                } catch (err) {
+                    console.log(err.message);
+                }
+
+                break;
+
             case 'refresh':
                 console.log('refresh !');
-                execSync('xdotool key r');
+
+                try {
+                    spawnSync(script, ['refresh']);
+                } catch (err) {
+                    console.log(err.message);
+                }
+
                 break;
 
             default:

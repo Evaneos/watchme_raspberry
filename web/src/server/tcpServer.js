@@ -63,6 +63,7 @@ export function create(path) {
                         } else {
                             rasberry.online = true;
                             io.emit('online', rasberry.id);
+                            socket.write(`url: ${rasberry.url}`);
                         }
 
                         break;
