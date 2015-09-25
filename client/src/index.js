@@ -65,7 +65,7 @@ let client;
 
                 try {
                     console.log('reload ' + url);
-                    spawnSync(script, ['reload', url]);
+                    spawnSync(script, ['reload', url], { stdio: 'inherit' });
                     console.log('reload done');
                 } catch (err) {
                     console.log(err.message);
@@ -76,7 +76,7 @@ let client;
             case 'refresh':
                 try {
                     console.log('refresh');
-                    spawnSync(script, ['refresh']);
+                    spawnSync(script, ['refresh'], { stdio: 'inherit' });
                     console.log('refresh done');
                 } catch (err) {
                     console.log(err.message);

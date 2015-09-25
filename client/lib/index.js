@@ -80,7 +80,7 @@ let client;
 
                 try {
                     console.log('reload ' + url);
-                    (0, _child_process.spawnSync)(script, ['reload', url]);
+                    (0, _child_process.spawnSync)(script, ['reload', url], { stdio: 'inherit' });
                     console.log('reload done');
                 } catch (err) {
                     console.log(err.message);
@@ -91,7 +91,7 @@ let client;
             case 'refresh':
                 try {
                     console.log('refresh');
-                    (0, _child_process.spawnSync)(script, ['refresh']);
+                    (0, _child_process.spawnSync)(script, ['refresh'], { stdio: 'inherit' });
                     console.log('refresh done');
                 } catch (err) {
                     console.log(err.message);
