@@ -79,7 +79,9 @@ let client;
                 const url = value.trim();
 
                 try {
+                    console.log('reload ' + url);
                     (0, _child_process.spawnSync)(script, ['reload', url]);
+                    console.log('reload done');
                 } catch (err) {
                     console.log(err.message);
                 }
@@ -87,10 +89,10 @@ let client;
                 break;
 
             case 'refresh':
-                console.log('refresh !');
-
                 try {
+                    console.log('refresh');
                     (0, _child_process.spawnSync)(script, ['refresh']);
+                    console.log('refresh done');
                 } catch (err) {
                     console.log(err.message);
                 }
