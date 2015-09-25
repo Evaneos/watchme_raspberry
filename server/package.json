@@ -4,7 +4,8 @@
   "description": "",
   "main": "lib/index.js",
   "dependencies": {
-    "babel-runtime": "^5.8.25"
+    "babel-runtime": "^5.8.25",
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "springbokjs-library": "^10.2.0"
