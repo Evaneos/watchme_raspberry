@@ -57,10 +57,16 @@ Install dependencies
 
 ```
 cd web
-npm install --production
+npm install
 cd ..
 cd server
 npm install --production
+```
+
+Build web
+
+```
+make build
 ```
 
 Start the servers
