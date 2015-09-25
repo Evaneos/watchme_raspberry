@@ -34,7 +34,7 @@ gulp.task('js', function() {
     if (bs) {
         bs.notify("Compiling, please wait!");
     }
-    var stream = gulp.src(['src/**/*.{js,jsx}', '!src/**/*.browser.{js,jsx}'])
+    var stream = gulp.src(['src/**/*.{js,jsx}', '!src/**/*.browser.{js,jsx}', '!src/browser/**/*.{js,jsx}'])
         .pipe(rename(function(path) {
             if (path.basename.endsWith('.server')) {
                 path.basename = path.basename.slice(0, -'.server'.length);
@@ -65,7 +65,7 @@ gulp.task('js-browser', function() {
     if (bs) {
         bs.notify("Compiling, please wait!");
     }
-    var stream = gulp.src(['src/**/*.{js,jsx}', '!src/**/*.server.{js,jsx}'])
+    var stream = gulp.src(['src/**/*.{js,jsx}', '!src/**/*.server.{js,jsx}', '!src/server/**/*.{js,jsx}'])
         .pipe(rename(function(path) {
             if (path.basename.endsWith('.browser')) {
                 path.basename = path.basename.slice(0, -'.browser'.length);

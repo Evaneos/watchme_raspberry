@@ -1,10 +1,7 @@
 import { newClass } from 'esnext-class';
 import TopLayout from 'turaco/lib/TopLayout';
 
-export default newClass({
-    name: 'Layout',
-    extends: TopLayout,
-
+export default class Layout extends TopLayout {
     head() {
         return `
 <title>Evaneos Rasberry</title>
@@ -34,10 +31,15 @@ export default newClass({
     System.import('js/main.js');
 </script>
         `;
-    },
+    }
 
     body($body, data) {
         const $container = $.create('div').setAttribute('class', 'container-page').appendTo($body);
         this.$content = $container;
+
+        this.$content.append(`
+            <script>window.webSocketPort = ${ data.webSocketPort }</script>
+            <script type="text/javascript" src="//${ data.hostname }:${ data.webSocketPort }/socket.io/socket.io.js">
+            </script>`);
     }
-});
+}

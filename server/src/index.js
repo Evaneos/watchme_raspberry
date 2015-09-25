@@ -54,7 +54,7 @@ const server = createServer(socket => {
     });
 });
 
-server.listen(argv.port || 3006);
+server.listen(argv.port || 3007);
 
 (function openSocket() {
     client = connect(argv.socketWebserver || __dirname + '/../../socket-webserver', () => {

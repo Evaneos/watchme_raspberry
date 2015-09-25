@@ -8,7 +8,7 @@ var _child_process = require('child_process');
 
 const argv = require('minimist')(process.argv.slice(2));
 
-const port = argv.port || 3006;
+const port = argv.port || 3007;
 const host = argv.host || 'localhost';
 
 const mac = (function () {

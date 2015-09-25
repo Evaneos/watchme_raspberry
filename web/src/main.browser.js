@@ -3,6 +3,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css!';
 L.Icon.Default.imagePath = 'jspm_packages/npm/leaflet@0.7.3/dist/images/';
 
+import { create } from './browser/webSocket';
+create();
+window.webSocket = require('./browser/webSocket');
+
 import {loadComponents, loadViews} from 'turaco/lib/browser/loaders';
 import ComponentRenderer from 'turaco/lib/browser/renderers/BrowserComponentRenderer';
 import ViewRenderer from 'turaco/lib/browser/renderers/BrowserViewRenderer';
@@ -19,3 +23,4 @@ const viewRenderer = new ViewRenderer(
 
 loadComponents(componentRenderer);
 loadViews(viewRenderer);
+

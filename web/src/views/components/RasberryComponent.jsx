@@ -1,5 +1,6 @@
 import Component from 'turaco/lib/Component';
 import Fragment from 'turaco/lib/elements/Fragment';
+// import { emit } from '../../browser/webSocket';
 
 export default class RasberryComponent extends Component {
     constructor() {
@@ -26,6 +27,7 @@ export default class RasberryComponent extends Component {
     }
 
     render({ rasberry }) {
+        this.$container.setAttribute('data-rasberry-id', this.rasberryId);
         this.$name.text(rasberry.name);
         this.$inputUrl.setAttribute('id', 'rasberry-url-' + this.rasberryId).setAttribute('value', rasberry.url);
         this[rasberry.online ? 'online' : 'offline']();
@@ -49,25 +51,25 @@ export default class RasberryComponent extends Component {
     ready() {
         this.$save.on('click', () => {
             this.$save.addClass('disabled').setProperty('disabled', true);
-            fetch('/save?id=' + encodeURIComponent(this.rasberryId) + '&url=' + encodeURIComponent(this.$inputUrl.getValue()))
+            webSocket.emit('save', this.rasberryId, this.$inputUrl.getValue())
+                .catch(err => alert(err))
                 .then(() => {
-                }).catch((err) => {
-                    alert(err);
-                }).then(() => {
                     this.$save.removeClass('disabled').setProperty('disabled', false);
                 });
         });
 
         this.$refresh.on('click', () => {
             this.$refresh.addClass('disabled').setProperty('disabled', true);
-            fetch('/refresh?id=' + encodeURIComponent(this.rasberryId))
+            webSocket.emit('refresh', this.rasberryId)
+                .catch(err => alert(err))
                 .then(() => {
-                }).catch((err) => {
-                    alert(err);
-                }).then(() => {
                     this.$refresh.removeClass('disabled').setProperty('disabled', false);
                 });
         });
+    }
+
+    setUrl(url) {
+        this.$inputUrl.setValue(url);
     }
 
     online() {

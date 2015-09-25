@@ -12,4 +12,30 @@ export default class RasberryListComponent extends Component {
 
         return $list;
     }
+
+    ready() {
+        webSocket.on('saved', (rasberryId, url) => {
+            const $item = this.$container.findFirst(`[data-rasberry-id=${rasberryId}]`);
+            if ($item) {
+                const component = $item._component;
+                component.setUrl(url);
+            }
+        });
+
+        webSocket.on('online', (rasberryId) => {
+            const $item = this.$container.findFirst(`[data-rasberry-id=${rasberryId}]`);
+            if ($item) {
+                const component = $item._component;
+                component.online();
+            }
+        });
+
+        webSocket.on('offline', (rasberryId) => {
+            const $item = this.$container.findFirst(`[data-rasberry-id=${rasberryId}]`);
+            if ($item) {
+                const component = $item._component;
+                component.offline();
+            }
+        });
+    }
 }

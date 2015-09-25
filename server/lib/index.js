@@ -63,7 +63,7 @@ const server = (0, _net.createServer)(function (socket) {
     });
 });
 
-server.listen(argv.port || 3006);
+server.listen(argv.port || 3007);
 
 ( /** @function */function openSocket() {
     client = (0, _net.connect)(argv.socketWebserver || __dirname + '/../../socket-webserver', function () {
