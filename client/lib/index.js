@@ -76,7 +76,7 @@ let client;
 
             case 'url':
             case 'change-url':
-                value = value.trim();
+                const url = value.trim();
 
                 try {
                     (0, _child_process.spawnSync)(script, ['reload', url]);

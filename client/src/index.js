@@ -61,7 +61,7 @@ let client;
 
             case 'url':
             case 'change-url':
-                value = value.trim();
+                const url = value.trim();
 
                 try {
                     spawnSync(script, ['reload', url]);
