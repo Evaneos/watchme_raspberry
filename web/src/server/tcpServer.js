@@ -3,11 +3,15 @@ import { unlinkSync } from 'fs';
 import { io } from './webSocket';
 import { items, itemsMapByMac } from './data';
 
-export let socket;
+let _socket;
+
+export function write() {
+    _socket.write(...arguments);
+}
 
 export function create(path) {
     const netServer = createNetServer(socket => {
-        socket = socket;
+        _socket = socket;
         console.log('client connected (net server)');
         let mac;
 

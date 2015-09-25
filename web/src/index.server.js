@@ -14,9 +14,9 @@ import ErrorHtmlRenderer from 'springbokjs-errors/lib/HtmlRenderer';
 const errorHtmlRenderer = new ErrorHtmlRenderer();
 const config = require('../config.js');
 
-import { create as createNetSocket, socket as netSocket } from './server/tcpServer';
+import { create as createNetSocket, write as netSocketWrite } from './server/tcpServer';
 import { create as createWebSocket } from './server/webSocket';
-import { items, itemsMap, data as itemsData, write as writeData } from './server/data';
+import { items, itemsMap, itemsMapByMac, data as itemsData, write as writeData } from './server/data';
 
 import IndexView from './views/IndexView';
 
@@ -67,6 +67,16 @@ app.locals.code = function(args) {
 };
 
 app.use(express.static(__dirname + '/../public'));
+
+
+app.get('/url/:mac', function(req, res) {
+    if (!itemsMapByMac.has(req.params.mac)) {
+        return res.sendStatus(404);
+    }
+
+    res.send(itemsMapByMac.get(req.params.mac).url);
+});
+
 
 app.use(cookieParser(config.cookieSecret));
 
@@ -138,7 +148,7 @@ io.on('connection', function(socket) {
         const item = itemsMap.get(id);
 
         if (item.online) {
-            netSocket.write('refresh: ' + item.mac);
+            netSocketWrite('refresh: ' + item.mac);
         }
 
         response(null);
