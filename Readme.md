@@ -57,10 +57,10 @@ Install dependencies
 
 ```
 cd web
-npm install
+npm install --production
 cd ..
 cd server
-npm install
+npm install --production
 ```
 
 Start the servers
@@ -93,7 +93,7 @@ Install dependencies
 
 ```
 cd client
-npm install
+npm install --production
 ```
 
 Start the client
