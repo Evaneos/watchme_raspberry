@@ -4,7 +4,7 @@ import TopLayout from 'turaco/lib/TopLayout';
 export default class Layout extends TopLayout {
     head() {
         return `
-<title>Evaneos Rasberry</title>
+<title>Raspberries</title>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 
@@ -20,9 +20,6 @@ export default class Layout extends TopLayout {
 
 <!--Let browser know website is optimized for mobile-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-
-<link rel="shortcut icon" href="http://www.evaneos.com/images/main/favicon.png" type="image/png" />
-<link rel="icon" type="image/png" href="http://www.evaneos.com/images/main/favicon.png" />
 
 <script src="/jspm_packages/system.js"></script>
 <script src="/config.js"></script>

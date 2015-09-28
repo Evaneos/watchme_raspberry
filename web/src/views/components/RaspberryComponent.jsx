@@ -2,7 +2,7 @@ import Component from 'turaco/lib/Component';
 import Fragment from 'turaco/lib/elements/Fragment';
 // import { emit } from '../../browser/webSocket';
 
-export default class RasberryComponent extends Component {
+export default class RaspberryComponent extends Component {
     constructor() {
         super();
         this.elements = [
@@ -14,8 +14,8 @@ export default class RasberryComponent extends Component {
         ];
     }
 
-    init({ rasberryId }) {
-        this.rasberryId = rasberryId;
+    init({ raspberryId }) {
+        this.raspberryId = raspberryId;
     }
 
     create() {
@@ -26,19 +26,19 @@ export default class RasberryComponent extends Component {
         this.$refresh = <button type="button">Refresh page on screen</button>;
     }
 
-    render({ rasberry }) {
-        this.$container.setAttribute('data-rasberry-id', this.rasberryId);
-        this.$name.text(rasberry.name);
-        this.$inputUrl.setAttribute('id', 'rasberry-url-' + this.rasberryId).setAttribute('value', rasberry.url);
-        this[rasberry.online ? 'online' : 'offline']();
+    render({ raspberry }) {
+        this.$container.setAttribute('data-raspberry-id', this.raspberryId);
+        this.$name.text(raspberry.name);
+        this.$inputUrl.setAttribute('id', 'raspberry-url-' + this.raspberryId).setAttribute('value', raspberry.url);
+        this[raspberry.online ? 'online' : 'offline']();
 
         return (
             <Fragment>
-                { this.$name } { this.$status } <span class="text-caption">{ rasberry.mac }</span>
+                { this.$name } { this.$status } <span class="text-caption">{ raspberry.mac }</span>
 
                 <div class="input text">
                     { this.$inputUrl }
-                    <label for={ 'rasberry-url-' + this.rasberryId }>URL</label>
+                    <label for={ 'raspberry-url-' + this.raspberryId }>URL</label>
                 </div>
 
                 <div class="button-container" style="margin-top: 20px">
@@ -51,7 +51,7 @@ export default class RasberryComponent extends Component {
     ready() {
         this.$save.on('click', () => {
             this.$save.addClass('disabled').setProperty('disabled', true);
-            webSocket.emit('save', this.rasberryId, this.$inputUrl.getValue())
+            webSocket.emit('save', this.raspberryId, this.$inputUrl.getValue())
                 .catch(err => alert(err))
                 .then(() => {
                     this.$save.removeClass('disabled').setProperty('disabled', false);
@@ -60,7 +60,7 @@ export default class RasberryComponent extends Component {
 
         this.$refresh.on('click', () => {
             this.$refresh.addClass('disabled').setProperty('disabled', true);
-            webSocket.emit('refresh', this.rasberryId)
+            webSocket.emit('refresh', this.raspberryId)
                 .catch(err => alert(err))
                 .then(() => {
                     this.$refresh.removeClass('disabled').setProperty('disabled', false);

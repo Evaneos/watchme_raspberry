@@ -1,7 +1,7 @@
 import { newClass } from 'esnext-class';
 import View from 'turaco/lib/View';
 import Fragment from 'turaco/lib/elements/Fragment';
-import RasberryListComponent from './components/RasberryListComponent';
+import RaspberryListComponent from './components/RaspberryListComponent';
 import Layout from './Layout';
 
 
@@ -12,7 +12,7 @@ export default class IndexView extends View {
     }
 
     render({ items }) {
-        const listComponent = this.component(RasberryListComponent)({}, { items });
+        const listComponent = this.component(RaspberryListComponent)({}, { items });
 
         return (
             <Fragment>

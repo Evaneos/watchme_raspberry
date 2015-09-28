@@ -1,4 +1,4 @@
-## Rasberry
+## Raspberry
 
 ### Installation
 
@@ -7,7 +7,7 @@
 Clone the repo
 
 ```
-git clone https://github.com/christophehurpeau/rasberry.git
+git clone https://github.com/christophehurpeau/raspberry.git
 ```
 
 Create data.json
@@ -33,24 +33,24 @@ module.exports = {
 Create supervisor config file
 
 ```
-[program:node-rasberry-web]
-command=node --harmony /home/rasberry/prod/current/web/lib/index.js --production --port=3000 --webSocketPort=3001 --socketWebserver=/tmp/socketWebserver.socket
+[program:node-raspberry-web]
+command=node --harmony /home/raspberry/prod/current/web/lib/index.js --production --port=3000 --webSocketPort=3001 --socketWebserver=/tmp/socketWebserver.socket
 autostart=true
 autorestart=true
 redirect_stderr=true
-stdout_logfile=/home/rasberry/prod/logs/web.log
+stdout_logfile=/home/raspberry/prod/logs/web.log
 user=evaneos
 
-[program:node-rasberry-tcp-server]
-command=node --harmony /home/rasberry/prod/current/server/lib/index.js --production --port=3002 --socketWebserver=/tmp/socketWebserver.socket
+[program:node-raspberry-tcp-server]
+command=node --harmony /home/raspberry/prod/current/server/lib/index.js --production --port=3002 --socketWebserver=/tmp/socketWebserver.socket
 autostart=true
 autorestart=true
 redirect_stderr=true
-stdout_logfile=/home/rasberry/prod/logs/tcp-server.log
+stdout_logfile=/home/raspberry/prod/logs/tcp-server.log
 user=evaneos
 
-[group:rasberry]
-programs=node-rasberry-web,node-rasberry-tcp-server
+[group:raspberry]
+programs=node-raspberry-web,node-raspberry-tcp-server
 ```
 
 Install dependencies
@@ -75,18 +75,18 @@ Start the servers
 sudo supervisorctl reread && sudo supervisorctl reload
 ```
 
-#### Client on a rasberry
+#### Client on a raspberry
 
 Clone the repo
 
 ```
-git clone https://github.com/christophehurpeau/rasberry.git
+git clone https://github.com/christophehurpeau/raspberry.git
 ```
 
 Create supervisor config file
 
 ```
-[program:node-rasberry-client]
+[program:node-raspberry-client]
 command=node --harmony .../client/lib/index.js --port=3002 --host=myhostname
 autostart=true
 autorestart=true

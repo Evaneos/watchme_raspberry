@@ -29,7 +29,7 @@ export function create(path) {
                     return;
                 }
 
-                let rasberry;
+                let raspberry;
 
                 const [instruction, value] = string.split(': ');
                 console.log(instruction, value);
@@ -46,33 +46,33 @@ export function create(path) {
 
                         const connectedClients = value.split(',');
                         connectedClients.forEach(mac => {
-                            const rasberry = itemsMapByMac.get(mac);
-                            if (!rasberry) {
+                            const raspberry = itemsMapByMac.get(mac);
+                            if (!raspberry) {
                                 console.log('unknown mac: ' + mac);
                             } else {
-                                rasberry.online = true;
+                                raspberry.online = true;
                             }
                         });
 
                         break;
 
                     case 'connected':
-                        rasberry = itemsMapByMac.get(value);
-                        if (!rasberry) {
+                        raspberry = itemsMapByMac.get(value);
+                        if (!raspberry) {
                             console.log('unknown mac: ' + value);
                         } else {
-                            rasberry.online = true;
-                            io.emit('online', rasberry.id);
-                            socket.write(`url: ${rasberry.mac},${rasberry.url}`);
+                            raspberry.online = true;
+                            io.emit('online', raspberry.id);
+                            socket.write(`url: ${raspberry.mac},${raspberry.url}`);
                         }
 
                         break;
 
                     case 'disconnected':
-                        rasberry = itemsMapByMac.get(value);
-                        if (rasberry) {
-                            rasberry.online = false;
-                            io.emit('offline', rasberry.id);
+                        raspberry = itemsMapByMac.get(value);
+                        if (raspberry) {
+                            raspberry.online = false;
+                            io.emit('offline', raspberry.id);
                         }
 
                         break;
