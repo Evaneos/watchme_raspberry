@@ -7,10 +7,38 @@ const port = argv.port || 3007;
 const host = argv.host || 'localhost';
 const script = '/home/pi/screen.sh';
 
-const mac = (() => {
+const netInterface = () => {
     const interfaces = networkInterfaces();
-    return (interfaces.wlan0 || interfaces.eth0 || interfaces.en0)[0].mac;
-})();
+    for (let key of Object.keys(interfaces)) {
+        let netInterface = interfaces[key];
+        let filtered = netInterface.filter(item => item.family === 'IPv4');
+
+        if (filtered.length !== 0) {
+            netInterface = filtered;
+        }
+
+        for (let item of netInterface) {
+            if (!item.mac || !item.address) {
+                continue;
+            }
+
+            if (item.mac === '00:00:00:00:00:00') {
+                continue;
+            }
+
+            if (item.address === '127.0.0.1' || item.address === '::1') {
+                continue;
+            }
+
+            return {
+                mac: item.mac,
+                ip: item.address,
+            };
+        }
+    }
+
+    throw new Error('Could not find valid mac/ip');
+};
 
 let client;
 
@@ -21,7 +49,9 @@ let client;
 
     let pingInterval;
     client = connect(port, host, () => {
-        client.write('mac: ' + mac);
+        const interfaceInfo = netInterface();
+        console.log(interfaceInfo);
+        client.write(`hello: ${interfaceInfo.mac},${interfaceInfo.ip};`);
         pingInterval = setInterval(() => client.write('ping'), 10000);
     });
 
@@ -53,40 +83,46 @@ let client;
         const string = data.toString();
         console.log('data', string);
 
-        const [instruction, value] = string.split(': ');
+        string.split(';').forEach((string) => {
+            if (string === '') {
+                return;
+            }
 
-        switch (instruction) {
-            case 'pong':
-                break;
+            const [instruction, value] = string.split(': ');
 
-            case 'url':
-            case 'change-url':
-                const url = value.trim();
+            switch (instruction) {
+                case 'pong':
+                    break;
 
-                try {
-                    console.log('reload ' + url);
-                    spawnSync(script, ['reload', url], { stdio: 'inherit' });
-                    console.log('reload done');
-                } catch (err) {
-                    console.log(err.message);
-                }
+                case 'url':
+                case 'change-url':
+                    const url = value.trim();
 
-                break;
+                    try {
+                        console.log('reload ' + url);
+                        spawnSync(script, ['reload', url], { stdio: 'inherit' });
+                        console.log('reload done');
+                    } catch (err) {
+                        console.log(err.message);
+                    }
 
-            case 'refresh':
-                try {
-                    console.log('refresh');
-                    spawnSync(script, ['refresh'], { stdio: 'inherit' });
-                    console.log('refresh done');
-                } catch (err) {
-                    console.log(err.message);
-                }
+                    break;
 
-                break;
+                case 'refresh':
+                    try {
+                        console.log('refresh');
+                        spawnSync(script, ['refresh'], { stdio: 'inherit' });
+                        console.log('refresh done');
+                    } catch (err) {
+                        console.log(err.message);
+                    }
 
-            default:
-                console.log('unsupported instruction: ' + instruction);
-                break;
-        }
+                    break;
+
+                default:
+                    console.log('unsupported instruction: ' + instruction);
+                    break;
+            }
+        });
     });
 })();

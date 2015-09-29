@@ -42,14 +42,17 @@ export function create(path) {
                     case 'connected-clients':
                         if (value === '') {
                             items.forEach(item => item.online = false);
+                            break;
                         }
 
                         const connectedClients = value.split(',');
-                        connectedClients.forEach(mac => {
+                        connectedClients.forEach(connectedClient => {
+                            const [mac, ip] = connectedClient.split('|');
                             const raspberry = itemsMapByMac.get(mac);
                             if (!raspberry) {
                                 console.log('unknown mac: ' + mac);
                             } else {
+                                raspberry.ip = ip;
                                 raspberry.online = true;
                             }
                         });
@@ -57,12 +60,15 @@ export function create(path) {
                         break;
 
                     case 'connected':
-                        raspberry = itemsMapByMac.get(value);
+                        const [mac, ip] = value.split(',');
+
+                        raspberry = itemsMapByMac.get(mac);
                         if (!raspberry) {
-                            console.log('unknown mac: ' + value);
+                            console.log('unknown mac: ' + mac);
                         } else {
                             raspberry.online = true;
-                            io.emit('online', raspberry.id);
+                            raspberry.ip = ip;
+                            io.emit('online', raspberry.id, ip);
                             socket.write(`url: ${raspberry.mac},${raspberry.url}`);
                         }
 

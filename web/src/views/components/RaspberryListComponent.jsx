@@ -22,11 +22,11 @@ export default class RaspberryListComponent extends Component {
             }
         });
 
-        webSocket.on('online', (raspberryId) => {
+        webSocket.on('online', (raspberryId, ip) => {
             const $item = this.$container.findFirst(`[data-raspberry-id=${raspberryId}]`);
             if ($item) {
                 const component = $item._component;
-                component.online();
+                component.online(ip);
             }
         });
 
