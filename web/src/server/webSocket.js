@@ -62,7 +62,7 @@ io.on('connection', function(socket) {
 
 io.on('error', (err) => {
     try {
-        errorsParser.log(err);
+        errorParser.log(err);
     } catch (err2) {
         console.error(err.stack);
         console.error(err2.stack);

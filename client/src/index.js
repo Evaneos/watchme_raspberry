@@ -4,7 +4,7 @@ import { networkInterfaces } from 'os';
 import { ConsoleLogger } from 'nightingale';
 
 const argv = require('minimist')(process.argv.slice(2));
-const logger = new ConsoleLogger('server');
+const logger = new ConsoleLogger('client');
 
 const port = argv.port || 3007;
 const host = argv.host || 'localhost';
@@ -54,7 +54,7 @@ let client;
     logger.info(`connect to ${host}:${port}`);
     client = connect(port, host, () => {
         const interfaceInfo = netInterface();
-        logger.info(interfaceInfo);
+        logger.info('interface', { mac: interfaceInfo.mac, ip: interfaceInfo.ip });
         client.write(`hello: ${interfaceInfo.mac},${interfaceInfo.ip};`);
         pingInterval = setInterval(() => client.write('ping;'), 10000);
     });

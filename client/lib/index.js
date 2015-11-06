@@ -13,7 +13,7 @@ var _os = require('os');
 var _nightingale = require('nightingale');
 
 const argv = require('minimist')(process.argv.slice(2));
-const logger = new _nightingale.ConsoleLogger('server');
+const logger = new _nightingale.ConsoleLogger('client');
 
 const port = argv.port || 3007;
 const host = argv.host || 'localhost';
@@ -91,7 +91,7 @@ let client;
     logger.info('connect to ' + host + ':' + port);
     client = (0, _net.connect)(port, host, function () {
         const interfaceInfo = netInterface();
-        logger.info(interfaceInfo);
+        logger.info('interface', { mac: interfaceInfo.mac, ip: interfaceInfo.ip });
         client.write('hello: ' + interfaceInfo.mac + ',' + interfaceInfo.ip + ';');
         pingInterval = setInterval(function () {
             return client.write('ping;');
