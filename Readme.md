@@ -14,7 +14,7 @@ Create data.json
 {"room1":{"name":"TV room 1","mac":"adresse Mac...","url":""}}}
 ```
 
-Create web/config.json
+Create web/config.js
 
 ```
 module.exports = {
@@ -47,7 +47,7 @@ make watch
 Watch TCP server
 
 ```
-make watch
+make clean build watch
 ```
 
 Run TCP server
