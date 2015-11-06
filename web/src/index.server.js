@@ -7,15 +7,15 @@ import ComponentRenderer from 'turaco/lib/renderers/ComponentRenderer';
 import ViewRenderer from 'turaco/lib/renderers/ViewRenderer';
 const app = express();
 const basicAuth = require('basic-auth');
-const cookieParser = require('cookie-parser')
-const argv = require('minimist')(process.argv.slice(2));
+const cookieParser = require('cookie-parser');
+import argv from './server/argv';
 const errorsParser = require('springbokjs-errors');
 import ErrorHtmlRenderer from 'springbokjs-errors/lib/HtmlRenderer';
 const errorHtmlRenderer = new ErrorHtmlRenderer();
 const config = require('../config.js');
 
-import { create as createNetSocket, write as netSocketWrite } from './server/tcpServer';
-import { create as createWebSocket } from './server/webSocket';
+import { write as netSocketWrite } from './server/tcpServer';
+import { webSocketPort } from './server/webSocket';
 import { items, itemsMap, itemsMapByMac, data as itemsData, write as writeData } from './server/data';
 
 import IndexView from './views/IndexView';
@@ -23,7 +23,6 @@ import IndexView from './views/IndexView';
 const viewDirname = __dirname + '/views/';
 
 const port = argv.port || 3005;
-const webSocketPort = argv.webSocketPort || 3006;
 
 process.on('uncaughtException', function(err) {
     try {
@@ -33,9 +32,6 @@ process.on('uncaughtException', function(err) {
         console.error(err2.stack);
     }
 });
-
-createNetSocket(argv.socketWebserver);
-const io = createWebSocket(webSocketPort);
 
 // web server
 
@@ -57,15 +53,6 @@ function render(res, View, properties, data) {
 }
 
 app.use(express.static(__dirname + '/../public'));
-
-app.get('/url/:mac', function(req, res) {
-    if (!itemsMapByMac.has(req.params.mac)) {
-        return res.sendStatus(404);
-    }
-
-    res.send(itemsMapByMac.get(req.params.mac).url);
-});
-
 
 app.use(cookieParser(config.cookieSecret));
 
@@ -109,54 +96,3 @@ app.get('/', function(req, res) {
 
 app.listen(port);
 console.log('listening on port ' + port);
-
-// web socket
-
-io.on('connection', function(socket) {
-    socket.on('save', (id, url, response) => {
-        console.log('save', id, url);
-        if (!itemsMap.has(id)) {
-            return response(id + ' not found');
-        }
-
-        const item = itemsMap.get(id);
-        if (item.url === url) {
-            return response(null);
-        }
-
-        item.url = url;
-        response(null);
-
-        itemsData[id].url = url;
-        socket.broadcast.emit('saved', id, url);
-        writeData();
-
-        if (item.online) {
-            netSocketWrite(`change-url: ${item.mac},${item.url}`);
-        }
-    });
-
-    socket.on('refresh', (id, response) => {
-        console.log('refresh', id);
-        if (!itemsMap.has(id)) {
-            return response(id + ' not found');
-        }
-
-        const item = itemsMap.get(id);
-
-        if (item.online) {
-            netSocketWrite(`refresh: ${item.mac},${item.url}`);
-        }
-
-        response(null);
-    });
-});
-
-io.on('error', (err) => {
-    try {
-        errorsParser.log(err);
-    } catch (err2) {
-        console.error(err.stack);
-        console.error(err2.stack);
-    }
-});
