@@ -5,12 +5,14 @@
   "main": "lib/index.js",
   "dependencies": {
     "babel-runtime": "^5.8.25",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "nightingale": "^1.1.1"
   },
   "devDependencies": {
-    "springbokjs-library": "^10.2.0"
+    "springbokjs-library": "^11.3.0"
   },
   "scripts": {
+    "start": "node .",
     "build": "make build",
     "postpublish": "make post-publish",
     "prepublish": "make pre-publish",

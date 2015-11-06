@@ -10,7 +10,10 @@ var _net = require('net');
 
 var _os = require('os');
 
+var _nightingale = require('nightingale');
+
 const argv = require('minimist')(process.argv.slice(2));
+const logger = new _nightingale.ConsoleLogger('server');
 
 const port = argv.port || 3007;
 const host = argv.host || 'localhost';
@@ -85,18 +88,19 @@ let client;
     }
 
     let pingInterval;
+    logger.info('connect to ' + host + ':' + port);
     client = (0, _net.connect)(port, host, function () {
         const interfaceInfo = netInterface();
-        console.log(interfaceInfo);
+        logger.info(interfaceInfo);
         client.write('hello: ' + interfaceInfo.mac + ',' + interfaceInfo.ip + ';');
         pingInterval = setInterval(function () {
-            return client.write('ping');
+            return client.write('ping;');
         }, 10000);
     });
 
     client.setKeepAlive(true);
     client.on('error', function (err) {
-        console.log(err.message);
+        logger.error(err.message);
 
         if (pingInterval) {
             clearInterval(pingInterval);
@@ -110,7 +114,7 @@ let client;
     });
 
     client.on('end', function () {
-        console.log('ended connection by server');
+        logger.info('ended connection by server');
         client = null;
 
         if (pingInterval) {
@@ -125,7 +129,7 @@ let client;
     client.on('data', /** @function 
                       * @param data */function (data) {
         const string = data.toString();
-        console.log('data', string);
+        logger.debug('data', { string });
 
         string.split(';').forEach(function (string) {
             if (string === '') {
@@ -146,28 +150,28 @@ let client;
                     const url = value.trim();
 
                     try {
-                        console.log('reload ' + url);
+                        logger.info('reload', { url });
                         (0, _child_process.spawnSync)(script, ['reload', url], { stdio: 'inherit' });
-                        console.log('reload done');
+                        logger.info('reload done');
                     } catch (err) {
-                        console.log(err.message);
+                        logger.error(err.message);
                     }
 
                     break;
 
                 case 'refresh':
                     try {
-                        console.log('refresh');
+                        logger.info('refresh');
                         (0, _child_process.spawnSync)(script, ['refresh'], { stdio: 'inherit' });
-                        console.log('refresh done');
+                        logger.info('refresh done');
                     } catch (err) {
-                        console.log(err.message);
+                        logger.error(err.message);
                     }
 
                     break;
 
                 default:
-                    console.log('unsupported instruction: ' + instruction);
+                    logger.warn('unsupported instruction', { instruction });
                     break;
             }
         });

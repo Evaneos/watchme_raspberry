@@ -1,13 +1,82 @@
 ## Raspberry
 
-### Installation
+### Installation for dev
+
+Clone the repo
+
+```
+git clone https://github.com/evaneos/raspberry.git
+```
+
+Create data.json
+
+```
+{"room1":{"name":"TV room 1","mac":"adresse Mac...","url":""}}}
+```
+
+Create web/config.json
+
+```
+module.exports = {
+    basicauth: {
+        username: 'user',
+        password: 'pass',
+    },
+
+    cookieSecret: 'secret key',
+};
+```
+
+
+Install dependencies
+
+```
+cd web
+npm install
+cd ..
+cd server
+npm install
+```
+
+Watch web and run webserver
+
+```
+make watch
+```
+
+Watch TCP server
+
+```
+make watch
+```
+
+Run TCP server
+
+```
+npm start
+```
+
+
+Watch client
+
+```
+make watch
+```
+
+Run client
+
+```
+npm start
+```
+
+### Installation for production
 
 #### Server
 
 Clone the repo
 
 ```
-git clone https://github.com/christophehurpeau/raspberry.git
+git clone https://github.com/evaneos/raspberry.git
 ```
 
 Create data.json
@@ -27,7 +96,6 @@ module.exports = {
 
     cookieSecret: 'secret key',
 };
-
 ```
 
 Create supervisor config file
@@ -80,7 +148,7 @@ sudo supervisorctl reread && sudo supervisorctl reload
 Clone the repo
 
 ```
-git clone https://github.com/christophehurpeau/raspberry.git
+git clone https://github.com/evaneos/raspberry.git
 ```
 
 Create supervisor config file
