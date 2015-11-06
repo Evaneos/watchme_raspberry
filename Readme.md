@@ -126,6 +126,7 @@ Install dependencies
 ```
 cd web
 npm install
+./node_modules/.bin/jspm install
 cd ..
 cd server
 npm install --production

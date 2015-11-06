@@ -18,6 +18,7 @@
     "esnext-class": "^1.0.0",
     "express": "^4.13.3",
     "html-document": "^0.8.1",
+    "jspm": "^0.16.14",
     "minimist": "^1.1.3",
     "nightingale": "^1.1.1",
     "socket.io": "^1.3.7",
@@ -45,7 +46,6 @@
       "babel-runtime": "npm:babel-runtime@^5.8.20",
       "core-js": "npm:core-js@^1.0.1",
       "css": "github:systemjs/plugin-css@^0.1.13",
-      "esnext-class": "npm:esnext-class@^1.0.0",
       "springbokjs-dom": "npm:springbokjs-dom@^0.11.0",
       "turaco": "npm:turaco@^0.1.14"
     },
