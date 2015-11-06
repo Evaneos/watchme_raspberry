@@ -48,11 +48,12 @@ let client;
     }
 
     let pingInterval;
+    console.log(`connect to ${host}:${port}`);
     client = connect(port, host, () => {
         const interfaceInfo = netInterface();
         console.log(interfaceInfo);
         client.write(`hello: ${interfaceInfo.mac},${interfaceInfo.ip};`);
-        pingInterval = setInterval(() => client.write('ping'), 10000);
+        pingInterval = setInterval(() => client.write('ping;'), 10000);
     });
 
     client.setKeepAlive(true);

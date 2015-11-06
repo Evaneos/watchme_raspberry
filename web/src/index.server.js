@@ -56,18 +56,7 @@ function render(res, View, properties, data) {
         });
 }
 
-app.locals.code = function(args) {
-    var contents = args[0]
-        .trim()
-        .replace(/&(?!\w+;)/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    return '<pre><code>' + contents + '</code></pre>';
-};
-
 app.use(express.static(__dirname + '/../public'));
-
 
 app.get('/url/:mac', function(req, res) {
     if (!itemsMapByMac.has(req.params.mac)) {

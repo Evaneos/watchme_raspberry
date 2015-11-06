@@ -23,7 +23,7 @@ const server = createServer(socket => {
         const string = data.toString();
 
         if (string === 'ping') {
-            socket.write('pong');
+            socket.write('pong;');
             return;
         }
 
@@ -45,7 +45,7 @@ const server = createServer(socket => {
 
             switch (instruction) {
                 case 'ping':
-                    socket.write('pong');
+                    socket.write('pong;');
                     break;
 
                 case 'hello':
@@ -102,26 +102,28 @@ server.listen(argv.port || 3007);
         const string = data.toString();
         console.log('data', string);
 
-        const [instruction, value] = string.split(': ');
+        string.split(';').forEach((string) => {
+            const [instruction, value] = string.split(': ');
 
-        switch (instruction) {
-            case 'pong':
-                break;
+            switch (instruction) {
+                case 'pong':
+                    break;
 
-            case 'url':
-            case 'change-url':
-            case 'refresh':
-                const [mac, url] = value.split(',', 2);
-                const socket = serverClients.get(mac).socket;
-                if (socket) {
-                    socket.write(instruction + ': ' + url);
-                }
+                case 'url':
+                case 'change-url':
+                case 'refresh':
+                    const [mac, url] = value.split(',', 2);
+                    const socket = serverClients.get(mac).socket;
+                    if (socket) {
+                        socket.write(instruction + ': ' + url);
+                    }
 
-                break;
+                    break;
 
-            default:
-                console.log('unsupported instruction: ' + instruction);
-                break;
-        }
+                default:
+                    console.log('unsupported instruction: ' + instruction);
+                    break;
+            }
+        });
     });
 })();
