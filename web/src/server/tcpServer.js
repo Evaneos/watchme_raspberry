@@ -36,7 +36,7 @@ export function create(path) {
 
                 switch (instruction) {
                     case 'ping':
-                        socket.write('pong');
+                        socket.write('pong;');
                         break;
 
                     case 'connected-clients':
