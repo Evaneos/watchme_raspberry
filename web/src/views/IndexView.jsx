@@ -1,4 +1,3 @@
-import { newClass } from 'esnext-class';
 import View from 'turaco/lib/View';
 import Fragment from 'turaco/lib/elements/Fragment';
 import RaspberryListComponent from './components/RaspberryListComponent';

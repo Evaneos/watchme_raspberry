@@ -1,4 +1,3 @@
-import { newClass } from 'esnext-class';
 import TopLayout from 'turaco/lib/TopLayout';
 
 export default class Layout extends TopLayout {

@@ -1,7 +1,4 @@
 global.React = global.$ = require('springbokjs-dom/lib/$');
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css!';
-L.Icon.Default.imagePath = 'jspm_packages/npm/leaflet@0.7.3/dist/images/';
 
 import { create } from './browser/webSocket';
 create();

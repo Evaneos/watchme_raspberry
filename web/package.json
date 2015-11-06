@@ -11,6 +11,7 @@
   "author": "Christophe Hurpeau <christophe@hurpeau.com> (http://christophe.hurpeau.com/)",
   "license": "MIT",
   "dependencies": {
+    "alouette": "^3.0.3",
     "babel-runtime": "^5.8.20",
     "basic-auth": "^1.0.3",
     "cookie-parser": "^1.4.0",
@@ -21,7 +22,6 @@
     "nightingale": "^1.1.1",
     "socket.io": "^1.3.7",
     "springbokjs-dom": "^0.11.0",
-    "springbokjs-errors": "^2.1.0",
     "turaco": "0.1.14",
     "turaco-styl": "0.0.2"
   },
@@ -46,9 +46,6 @@
       "core-js": "npm:core-js@^1.0.1",
       "css": "github:systemjs/plugin-css@^0.1.13",
       "esnext-class": "npm:esnext-class@^1.0.0",
-      "leaflet": "npm:leaflet@^0.7.3",
-      "mapbox.js": "npm:mapbox.js@^2.2.1",
-      "mapbox/mapbox.js": "github:mapbox/mapbox.js@^2.2.1",
       "springbokjs-dom": "npm:springbokjs-dom@^0.11.0",
       "turaco": "npm:turaco@^0.1.14"
     },

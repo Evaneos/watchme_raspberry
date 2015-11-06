@@ -4,7 +4,7 @@ import argv from './argv';
 import { write as netSocketWrite } from './tcpServer';
 import { itemsMap, data as itemsData, write as writeData } from './data';
 import { ConsoleLogger } from 'nightingale';
-import errorParser from 'springbokjs-errors';
+import errorParser from 'alouette';
 const config = require('../../config.js');
 
 const logger = new ConsoleLogger('webSocket');
