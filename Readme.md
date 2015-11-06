@@ -16,7 +16,7 @@ Create data.json
 {"room1":{"name":"TV room 1","mac":"adresse Mac...","url":""}}}
 ```
 
-Create web/config.json
+Create web/config.js
 
 ```
 module.exports = {
