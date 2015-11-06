@@ -1,5 +1,10 @@
+import 'html-document/lib/global';
+global.React = global.$ = require('springbokjs-dom/lib/$');
 import express from 'express';
 import errorParser from 'springbokjs-errors';
+import createBasicInstanceFactory from 'turaco/lib/factories/basicInstanceFactory';
+import ComponentRenderer from 'turaco/lib/renderers/ComponentRenderer';
+import ViewRenderer from 'turaco/lib/renderers/ViewRenderer';
 const app = express();
 const basicAuth = require('basic-auth');
 const cookieParser = require('cookie-parser')
@@ -16,6 +21,12 @@ import { items, itemsMap, itemsMapByMac, data as itemsData, write as writeData }
 // actions
 import { default as screenAction } from './server/actions/screen';
 
+
+// views
+import IndexView from './views/IndexView';
+
+const viewDirname = __dirname + '/views/';
+
 const port = argv.port || 3005;
 const webSocketPort = argv.webSocketPort || 3006;
 
@@ -31,7 +42,36 @@ process.on('uncaughtException', function(err) {
 createNetSocket(argv.socketWebserver);
 const io = createWebSocket(webSocketPort);
 
+// web server
+
+const componentRenderer = new ComponentRenderer(
+    createBasicInstanceFactory(viewDirname + 'components/', 'Component')
+);
+
+const viewRenderer = new ViewRenderer(
+    createBasicInstanceFactory(viewDirname, 'View'),
+    componentRenderer
+);
+
+function render(res, View, properties, data) {
+    return viewRenderer.createThenRender(View, properties, data)
+        .then((view) => res.send(view.toHtmlString()))
+        .catch((err) => {
+            res.status(500).send(errorHtmlRenderer.render(err));
+        });
+}
+
 app.use(express.static(__dirname + '/../public'));
+
+app.get('/url/:mac', function(req, res) {
+    if (!itemsMapByMac.has(req.params.mac)) {
+        return res.sendStatus(404);
+    }
+
+    res.send(itemsMapByMac.get(req.params.mac).url);
+});
+
+
 app.use(cookieParser(config.cookieSecret));
 
 app.use(function(req, res, next) {
@@ -68,9 +108,14 @@ app.use(function(err, req, res, next) {
 });
 
 
+app.get('/', function(req, res) {
+    return render(res, IndexView, { }, { items, dataLayout: { hostname: req.hostname, webSocketPort } });
+});
+
 app.get('/screen/:id', screenAction);
 
-app.listen(port, () => console.log('listening on port ' + port));
+app.listen(port);
+console.log('listening on port ' + port);
 
 // web socket
 

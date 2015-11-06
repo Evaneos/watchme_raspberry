@@ -41,7 +41,7 @@ npm install
 Watch web and run webserver
 
 ```
-make watch
+make clean build watch
 ```
 
 Watch TCP server

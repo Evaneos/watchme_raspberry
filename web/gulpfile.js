@@ -45,12 +45,28 @@ gulp.task('js', function() {
         .pipe(clip())
         .pipe(babel({
             blacklist: [
-                'regenerator',
-                'es6.forOf',
-                // 'es6.arrowFunctions',
-                'es6.constants',
-                'es6.blockScoping',
-            ]
+                "es3.memberExpressionLiterals",
+                "es3.propertyLiterals",
+                "es5.properties.mutators",
+                "es6.blockScoping",
+                "es6.constants",
+                'es6.arrowFunctions',
+                "es6.properties.computed",
+                "es6.properties.shorthand",
+            ],
+            optional: [
+              "runtime",
+              "es7.classProperties",
+              "es7.decorators",
+              "es7.exportExtensions",
+              "asyncToGenerator",
+              "optimisation.flow.forOf"
+            ],
+            loose: [
+              "es6.spread",
+              "es6.destructuring",
+              "es6.forOf"
+            ],
         }))
         .pipe(sourcemaps.write('.', {sourceRoot: '/'}))
         .pipe(gulp.dest('lib/'));
@@ -74,6 +90,18 @@ gulp.task('js-browser', function() {
         .pipe(changed('public/js/', {extension: '.js'}))
         .pipe(sourcemaps.init())
         .pipe(babel({
+            optional: [
+                "runtime",
+                "es7.classProperties",
+                "optimisation.flow.forOf",
+                "es7.decorators",
+                "es7.exportExtensions",
+            ],
+            loose: [
+                "es6.spread",
+                "es6.destructuring",
+                "es6.forOf"
+            ],
         }))
         .pipe(sourcemaps.write('.', {sourceRoot: '/'}))
         .pipe(gulp.dest('public/js/'));
